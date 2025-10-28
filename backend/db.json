@@ -1,0 +1,84 @@
+{
+  "creators": [
+    {
+      "id": "1",
+      "name": "Jane Doe",
+      "designation": "Video Creator",
+      "about": "Creates content about travel and lifestyle.",
+      "price": 500,
+      "images": [
+        "https://placehold.co/200x200"
+      ]
+    },
+    {
+      "id": "2",
+      "name": "John Doe",
+      "designation": "Video Editor",
+      "about": "Edit Videos given by creators.",
+      "price": 700,
+      "images": [
+        "https://placehold.co/200x200"
+      ]
+    },
+    {
+      "id": "3",
+      "name": "John Smith",
+      "designation": "Video Editor",
+      "about": "Edit Videos given by creators.",
+      "price": 700,
+      "images": [
+        "https://placehold.co/200x200"
+      ]
+    },
+    {
+      "id": "4",
+      "name": "Jane Clark",
+      "designation": "Video Editor",
+      "about": "Edit Videos given by creators.",
+      "price": 700,
+      "images": [
+        "https://placehold.co/200x200"
+      ]
+    },
+    {
+      "id": "5",
+      "name": "Clark Kent",
+      "designation": "Video Editor",
+      "about": "Edit Videos given by creators.",
+      "price": 700,
+      "images": [
+        "https://placehold.co/200x200"
+      ]
+    },
+    {
+      "id": "6",
+      "name": "Barry Allen",
+      "designation": "Video Editor",
+      "about": "Edit Videos given by creators.",
+      "price": 700,
+      "images": [
+        "https://placehold.co/200x200"
+      ]
+    },
+    {
+      "id": "7",
+      "name": "Bruce Wayne",
+      "designation": "Video Editor",
+      "about": "Edit Videos given by creators.",
+      "price": 700,
+      "images": [
+        "https://placehold.co/200x200"
+      ]
+    },
+    {
+      "id": "283c",
+      "name": "Tony Stark",
+      "designation": "React.js Developer",
+      "about": "Create cool web application with react",
+      "price": "599",
+      "images": [
+        "https://placehold.co/200x200"
+      ]
+    }
+  ]
+}
