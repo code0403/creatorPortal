@@ -30,7 +30,7 @@ const Home = () => {
   const handleDelete = async (id) => {
     if (confirm("Are you sure you want to delete this creator?")) {
       try {
-        await api.delete(`/api/creators/${id}`);
+        await api.delete(`/creators/${id}`);
         toast.success("Creator deleted successfully!");
         
         fetchCreators();
@@ -107,21 +107,21 @@ const Home = () => {
                   💰 Price: ${creator.price}
                 </p>
 
-                <div className="card-actions justify-end mt-3 flex-wrap gap-2">
+                <div className="card-actions flex flex-row flex-wrap gap-2 mt-3 justify-center sm:justify-end">
                   <Link
                     to={`/creator/${creator._id}`}
-                    className="btn btn-outline btn-md"
+                    className="btn btn-outline btn-md p-2"
                   >
                     View
                   </Link>
                   <Link
                     to={`/edit/${creator._id}`}
-                    className="btn btn-warning btn-md"
+                    className="btn btn-warning btn-md p-2"
                   >
                     Edit
                   </Link>
                   <button
-                    className="btn btn-error btn-md p-4 md:p-2"
+                    className="btn btn-error btn-md p-2"
                     onClick={() => handleDelete(creator._id)}
                   >
                     Delete
