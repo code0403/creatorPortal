@@ -34,7 +34,7 @@ const AddCreator = () => {
     }
 
     try {
-      await api.post("/api/creators", formData);
+      await api.post("/creators", formData);
       toast.success("Creator added successfully!");
       navigate("/");
     } catch {

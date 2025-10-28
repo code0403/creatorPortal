@@ -16,7 +16,7 @@ const EditCreator = () => {
   useEffect(() => {
     const fectCreator = async () => {
       try {
-        const res = await api.get(`/api/creators/${id}`);
+        const res = await api.get(`/creators/${id}`);
         setFormData(res.data);
       } catch (error) {
         console.error("Error fetching creator:", error);
@@ -40,7 +40,7 @@ const EditCreator = () => {
     }
 
     try {
-      await api.put(`/api/creators/${id}`, formData);
+      await api.put(`/creators/${id}`, formData);
       toast.success("Creator added successfully!");
       setSuccess(true);
       setLoading(false);

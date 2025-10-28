@@ -11,7 +11,7 @@ export const useAuthStore = create((set) => ({
   signup: async (formData) => {
     try {
       set({ loading: true });
-      const res = await api.post("/api/auth/register", formData);
+      const res = await api.post("/auth/register", formData);
       set({ loading: false, error: null });
       return res.data;
     } catch (err) {
@@ -22,7 +22,7 @@ export const useAuthStore = create((set) => ({
   login: async (formData) => {
     try {
       set({ loading: true });
-      const res = await api.post("/api/auth/login", formData);
+      const res = await api.post("/auth/login", formData);
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("user", JSON.stringify(res.data.user));
       api.defaults.headers.common["Authorization"] = `Bearer ${res.data.token}`;

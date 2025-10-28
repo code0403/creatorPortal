@@ -19,7 +19,8 @@ const Home = () => {
 
   const fetchCreators = async () => {
     try {
-      const res = await api.get("/api/creators");
+      const res = await api.get("/creators");
+      console.log("Fetched data:", res.data);
       setCreators(res.data);
     } catch (err) {
       console.error("Error fetching creators:", err);
@@ -42,9 +43,11 @@ const Home = () => {
     }
   };
 
-  const filteredCreators = creators.filter((c) =>
-    c.name.toLowerCase().includes(search.toLowerCase())
-  );
+  const filteredCreators = Array.isArray(creators)
+  ? creators.filter((c) =>
+      c.name.toLowerCase().includes(search.toLowerCase())
+    )
+  : [];
 
   const indexOfLast = currentPage * creatorsPerPage;
   const indexOfFirst = indexOfLast - creatorsPerPage;

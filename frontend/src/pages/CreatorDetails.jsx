@@ -13,7 +13,7 @@ const CreatorDetails = () => {
   useEffect(() => {
     const fetchCreator = async () => {
       try {
-        const res = await api.get(`/api/creators/${id}`);
+        const res = await api.get(`/creators/${id}`);
         setCreator(res.data);
       } catch (err) {
         console.error("Error fetching creator:", err);

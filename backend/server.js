@@ -9,7 +9,9 @@ import { fileURLToPath } from "url";
 
 dotenv.config();
 
-const __dirname = path.resolve();
+connectDB();
+
+// const __dirname = path.resolve();
 
 
 const app = express();
@@ -19,23 +21,24 @@ app.use(cors({
     credentials: true
 }));
 
+
+
 app.use("/api/creators", creatorRoutes);
 app.use("/api/auth", authRoutes);
 
+// Determine paths
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-if(process.env.NODE_ENV === "production"){
-    app.use(express.static(path.join(__dirname, "../frontend/dist")));
+// Serve frontend (for production or local test after build)
+const frontendPath = path.join(__dirname, "../frontend/dist");
+app.use(express.static(frontendPath));
 
-    app.get(/(.*)/, (req, res) => {
-        res.sendFile(path.join(__dirname, "../frontend", "dist", "index.html"));
-    });
-}
-
+app.get(/.*/, (req, res) => {
+  res.sendFile(path.resolve(frontendPath, "index.html"));
+});
 
 
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => {
-    console.log(`Server is Running on port ${PORT}`)
-    connectDB();
-})
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
