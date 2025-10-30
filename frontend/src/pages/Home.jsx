@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router";
+import { Link, Navigate, useNavigate } from "react-router";
 import api from "../lib/api";
 import { motion as Motion } from "framer-motion";
 import { Search } from "lucide-react";
@@ -8,14 +8,15 @@ import toast from "react-hot-toast";
 const Home = () => {
   const [creators, setCreators] = useState([]);
   const [search, setSearch] = useState("");
+  const [sortOrder, setSortOrder] = useState("asc");
+  const [recentLogins, setRecentLogins] = useState([]);
+  const [showActivity, setShowActivity] = useState(false);
 
   // Pagination
   const [currentPage, setCurrentPage] = useState(1);
   const creatorsPerPage = 6;
 
-  useEffect(() => {
-    fetchCreators();
-  }, []);
+  const navigate = useNavigate();
 
   const fetchCreators = async () => {
     try {
@@ -27,12 +28,45 @@ const Home = () => {
     }
   };
 
+  useEffect(() => {
+    fetchCreators();
+  }, []);
+
+  const fetchRecentActivity = async () => {
+    try {
+      const res = await api.get(`/auth/recent-logins`);
+      setRecentLogins(res.data);
+      setShowActivity(true);
+    } catch (error) {
+      console.error(`Error while fetching recent logins: ${error}`);
+
+      if(error.response){
+        const status = error.response.status;
+
+        if(status === 401){
+          toast.error(`You musted logged in to view recent logins`);
+          setTimeout(() => navigate("/login"), 2000);
+          return;
+        }
+
+        if(status === 403){
+          toast.error(`You don't have permission to view recent logins`);
+          setTimeout(() => navigate("/"), 2000);
+          return;
+        }
+      }
+
+      // Fallback error messsage.
+      toast.error(`Something went wrong while fetching recent logins.`);
+    }
+  };
+
   const handleDelete = async (id) => {
     if (confirm("Are you sure you want to delete this creator?")) {
       try {
         await api.delete(`/creators/${id}`);
         toast.success("Creator deleted successfully!");
-        
+
         fetchCreators();
       } catch (error) {
         console.error("Error deleting creator:", error);
@@ -43,11 +77,20 @@ const Home = () => {
     }
   };
 
+  const handleSort = () => {
+    const sorted = [...creators].sort((a, b) =>
+      sortOrder === "asc" ? a.price - b.price : b.price - a.price
+    );
+    console.log(sorted);
+    setCreators(sorted);
+    setSortOrder(sortOrder === "asc" ? "desc" : "asc");
+  };
+
   const filteredCreators = Array.isArray(creators)
-  ? creators.filter((c) =>
-      c.name.toLowerCase().includes(search.toLowerCase())
-    )
-  : [];
+    ? creators.filter((c) =>
+        c.name.toLowerCase().includes(search.toLowerCase())
+      )
+    : [];
 
   const indexOfLast = currentPage * creatorsPerPage;
   const indexOfFirst = indexOfLast - creatorsPerPage;
@@ -75,6 +118,13 @@ const Home = () => {
           <Link to="/add" className="btn btn-primary w-full sm:w-auto">
             + Add Creator
           </Link>
+
+          <button onClick={handleSort} className="btn btn-success p-4">
+            Sort by Price ({sortOrder === "asc" ? "Low to High" : "High to Low"}
+            )
+          </button>
+
+          <button onClick={fetchRecentActivity} className="btn btn-info p-4">View Recent Activity</button>
         </div>
       </div>
 
@@ -130,6 +180,33 @@ const Home = () => {
               </div>
             </Motion.div>
           ))}
+        </div>
+      )}
+
+      {/* Recent Activity */}
+      {showActivity && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+          <div className="bg-white p-6 rounded-xl w-96 shadow-xl">
+            <h2 className="text-xl font-bold mb-4 text-center text-slate-900">Recent Activity</h2>
+            {recentLogins.length > 0 ? (
+              <ul className="divide-y divide-gray-200">
+                {recentLogins.map((user) => (
+                  <li key={user._id} className="py-2">
+                    <p className="font-semibold text-emerald-950">{user.name}</p>
+                    <p className="text-sm text-gray-600">{user.email}</p>
+                    <p className="text-xs text-gray-400">
+                      Last Login: {new Date(user.lastLogin).toLocaleString()}
+                    </p>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="text-center text-gray-500">No recent activity found.</p>
+            )}
+            <div className="flex justify-center mt-4">
+              <button className="btn btn-warning p-2 bg-red-500 text-white-900" onClick={() => setShowActivity(false)}>Close</button>
+            </div>
+          </div>
         </div>
       )}
 
