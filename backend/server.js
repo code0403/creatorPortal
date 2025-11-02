@@ -4,6 +4,7 @@ import cors from "cors";
 import connectDB from "./config/db.js";
 import creatorRoutes from "./routes/creatorRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
+import favoriteRoutes from "./routes/favoriteRoutes.js";
 import path from "path";
 import { fileURLToPath } from "url";
 
@@ -25,6 +26,7 @@ app.use(cors({
 
 app.use("/api/creators", creatorRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/api/favorites", favoriteRoutes);
 
 // Determine paths
 const __filename = fileURLToPath(import.meta.url);

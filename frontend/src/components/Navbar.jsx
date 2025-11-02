@@ -15,7 +15,7 @@ const Navbar = () => {
   return (
     <>
       {/* Top Navbar */}
-      <div className="navbar bg-base-100 shadow-lg shadow-base-300/50 shadow-md px-4 sm:px-6 sticky top-0 z-50">
+      <div className="navbar bg-base-100 shadow-base-300/50 shadow-md px-4 sm:px-6 sticky top-0 z-50">
         <div className="flex-1">
           <Link to="/" className="text-lg sm:text-xl font-bold">
             Creator Portal
@@ -43,6 +43,10 @@ const Navbar = () => {
           >
             Add
           </Link> */}
+
+          <Link to="/favorites" className="btn btn-ghost">
+            ❤️ Favourites
+          </Link>
 
           {user ? (
             <button
@@ -120,6 +124,10 @@ const Navbar = () => {
                   onClick={() => setMenuOpen(false)}
                 >
                   Add Creator
+                </Link>
+
+                <Link to="/favorites" className="btn btn-sm btn-ghost">
+                  ❤️ Favourites
                 </Link>
               </nav>
 

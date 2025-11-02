@@ -6,6 +6,7 @@ const userSchema = new mongoose.Schema({
   password: { type: String, required: true },
   role: { type: String, enum: ["admin", "viewer"], default: "viewer" },
   lastLogin : {type : Date},
+  favorites : [{type : mongoose.Schema.Types.ObjectId, ref : "Creator"}]
 }, {timestamps : true});
 
 export default mongoose.model("User", userSchema);

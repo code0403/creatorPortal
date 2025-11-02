@@ -9,6 +9,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import { Toaster } from "react-hot-toast";
+import Favorites from "./pages/Favorites";
 
 function App() {
   return (
@@ -37,7 +38,9 @@ function App() {
               </ProtectedRoute>
             }
           />
+        <Route path="/favorites" element={<Favorites />} />
         </Routes>
+
 
         <Toaster />
       </div>

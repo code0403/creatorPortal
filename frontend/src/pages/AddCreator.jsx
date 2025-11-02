@@ -1,21 +1,22 @@
-import React, { useState } from 'react'
-import { useNavigate, Link } from 'react-router';
-import api from '../lib/api';
-import { motion as Motion} from "framer-motion";
-import { ArrowLeft } from 'lucide-react';
-import toast from 'react-hot-toast';
+import React, { useState } from "react";
+import { useNavigate, Link } from "react-router";
+import api from "../lib/api";
+import { motion as Motion } from "framer-motion";
+import { ArrowLeft } from "lucide-react";
+import toast from "react-hot-toast";
 
 const AddCreator = () => {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: "",
     designation: "",
     about: "",
     price: "",
     images: [""],
+    email: "",
   });
 
-   const [error, setError] = useState("");
+  const [error, setError] = useState("");
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -23,7 +24,7 @@ const AddCreator = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (!formData.name.trim() || !formData.designation.trim()) {
       setError("Name and Designation are required fields.");
       return;
@@ -43,7 +44,7 @@ const AddCreator = () => {
     }
   };
   return (
-<div className="max-w-screen-md mx-auto p-4 sm:p-6 md:p-10">
+    <div className="max-w-screen-md mx-auto p-4 sm:p-6 md:p-10">
       <Motion.div
         className="bg-base-100 shadow-lg rounded-2xl p-6 md:p-10"
         initial={{ opacity: 0, y: 30 }}
@@ -71,6 +72,23 @@ const AddCreator = () => {
               placeholder="Enter full name"
               className="input input-bordered focus:outline-none p-2 rounded w-full"
               onChange={handleChange}
+            />
+          </div>
+
+          {/* Email  */}
+          <div>
+            <label className="label">
+              <span className="label-text">Email (for notifications)</span>
+            </label>
+            <input
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={(e) =>
+                setFormData({ ...formData, email: e.target.value })
+              }
+              placeholder="Enter creator email"
+              className="input input-bordered w-full"
             />
           </div>
 
@@ -127,9 +145,12 @@ const AddCreator = () => {
           {/* Buttons */}
           <div className="flex flex-col sm:flex-row justify-between items-center gap-4 mt-6">
             <Link to="/" className="w-full sm:w-auto">
-              <button type="outline" className="btn btn-active btn-accent p-4 w-full sm:w-auto">
+              <button
+                type="outline"
+                className="btn btn-active btn-accent p-4 w-full sm:w-auto"
+              >
                 {" "}
-                <ArrowLeft size={16} /> 
+                <ArrowLeft size={16} />
                 Back
               </button>
             </Link>
@@ -144,7 +165,7 @@ const AddCreator = () => {
         </form>
       </Motion.div>
     </div>
-  )
-}
+  );
+};
 
-export default AddCreator
+export default AddCreator;

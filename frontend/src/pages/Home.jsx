@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, Navigate, useNavigate } from "react-router";
 import api from "../lib/api";
 import { motion as Motion } from "framer-motion";
-import { Search } from "lucide-react";
+import { Heart, Search } from "lucide-react";
 import toast from "react-hot-toast";
 
 const Home = () => {
@@ -92,6 +92,33 @@ const Home = () => {
       )
     : [];
 
+  const handleAddFavorite = async (creatorId) => {
+    console.log(creatorId);
+    try {
+      const token = localStorage.getItem("token");
+      console.log(token);
+        if (!token) {
+            toast.error("Please login to add favorites");
+            navigate("/login");
+            return;
+        }
+      const res = await api.post(`/favorites`, {
+        creatorId: creatorId,
+      }
+    );
+      console.log(res.data);
+      toast.success("Creator added to favorites successfully!");
+    } catch (error) {
+      console.error(`Error while adding creator to favorites: ${error}`);
+      if (error.response?.status === 401) {
+            toast.error("Please login to add favorites");
+            navigate("/login");
+        } else {
+            toast.error("Failed to add to favorites");
+        }
+    }
+  };
+
   const indexOfLast = currentPage * creatorsPerPage;
   const indexOfFirst = indexOfLast - creatorsPerPage;
   const currentCreators = filteredCreators.slice(indexOfFirst, indexOfLast);
@@ -157,7 +184,16 @@ const Home = () => {
                   💰 Price: ${creator.price}
                 </p>
 
+                <div className="card-actions flex flex-row justify-between">
+                  <button onClick={() =>handleAddFavorite(creator._id)} className="btn btn-outline btn-sm gap-2 mt-4 p-4">
+                    <Heart className="mr-2" />
+                  </button>
+
+                  
+                
+
                 <div className="card-actions flex flex-row flex-wrap gap-2 mt-3 justify-center sm:justify-end">
+                  
                   <Link
                     to={`/creator/${creator._id}`}
                     className="btn btn-outline btn-md p-2"
@@ -176,6 +212,7 @@ const Home = () => {
                   >
                     Delete
                   </button>
+                </div>
                 </div>
               </div>
             </Motion.div>

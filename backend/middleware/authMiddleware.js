@@ -9,9 +9,14 @@ export const protect = (req, res, next) => {
   const token = authHeader.split(" ")[1];
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = decoded;
+    req.user = {
+      id: decoded.id || decoded._id,
+      email: decoded.email,
+      role: decoded.role,
+    };
     next();
   } catch (error) {
+    console.error("JWT verification failed:", error);
     res.status(401).json({ message: "Invalid token" });
   }
 };
