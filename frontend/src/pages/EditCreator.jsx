@@ -101,6 +101,23 @@ const EditCreator = () => {
             />
           </div>
 
+          {/* Email  */}
+          <div>
+            <label className="label">
+              <span className="label-text">Email (for notifications)</span>
+            </label>
+            <input
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={(e) =>
+                setFormData({ ...formData, email: e.target.value })
+              }
+              placeholder="Enter creator email"
+              className="input input-bordered w-full"
+            />
+          </div>
+
           {/* Designation */}
           <div>
             <label className="block font-medium mb-1">Designation *</label>
